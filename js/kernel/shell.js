@@ -6,6 +6,21 @@ export class Shell{
 
 constructor(){
 
+  this.bootLogo=`
+███╗   ██╗ ██████╗ ██╗  ██╗███████╗███╗   ██╗
+████╗  ██║██╔═══██╗╚██╗██╔╝██╔════╝████╗  ██║
+██╔██╗ ██║██║   ██║ ╚███╔╝ █████╗  ██╔██╗ ██║
+██║╚██╗██║██║   ██║ ██╔██╗ ██╔══╝  ██║╚██╗██║
+██║ ╚████║╚██████╔╝██╔╝ ██╗███████╗██║ ╚████║
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
+
+NOXEN OS
+
+Serpent in the Dark
+
+Boot Complete.
+`;
+
 this.currentDirectory="/home/noxen";
 
 this.history=new History();
