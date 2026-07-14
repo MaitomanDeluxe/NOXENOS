@@ -2,14 +2,16 @@ import {Shell} from "./kernel/shell.js";
 
 window.addEventListener("load",()=>{
 
-setTimeout(()=>{
+    const desktop=document.getElementById("desktop");
 
-document.getElementById("boot-screen").style.display="none";
+    desktop.style.display="block";
 
-document.getElementById("desktop").style.display="block";
+    const shell=new Shell();
 
-new Shell();
+    setTimeout(()=>{
 
-},1800);
+        shell.boot();
+
+    },1200);
 
 });
