@@ -1,1 +1,13 @@
+{
 
+"theme":"purple",
+
+"mobileMode":false,
+
+"fontSize":16,
+
+"autocomplete":true,
+
+"bootAnimation":true
+
+}
