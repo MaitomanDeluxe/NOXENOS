@@ -1,1 +1,31 @@
+{
 
+"/":{
+
+"home":{
+
+"noxen":{
+
+"Desktop":{},
+
+"Downloads":{},
+
+"Documents":{},
+
+"readme.txt":"Welcome to NOXEN OS"
+
+}
+
+},
+
+"etc":{},
+
+"usr":{},
+
+"var":{},
+
+"bin":{}
+
+}
+
+}
