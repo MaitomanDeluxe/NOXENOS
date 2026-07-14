@@ -1,1 +1,37 @@
+#mobileKeys{
 
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+height:55px;
+
+display:none;
+
+background:#111;
+
+border-top:1px solid var(--border);
+
+align-items:center;
+
+justify-content:space-evenly;
+
+}
+
+#mobileKeys button{
+
+width:42px;
+
+height:34px;
+
+border-radius:5px;
+
+background:#222;
+
+color:white;
+
+}
