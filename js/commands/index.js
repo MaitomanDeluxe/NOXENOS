@@ -4,6 +4,7 @@ import echo from "./system/echo.js";
 import whoami from "./system/whoami.js";
 import cls from "./system/cls.js";
 import pwd from "./filesystem/pwd.js";
+import reboot from "./system/reboot.js";
 
 export default {
 
@@ -17,6 +18,8 @@ whoami,
 
 cls,
 
-pwd
+pwd,
+
+reboot
 
 };
