@@ -1,5 +1,5 @@
-export default function(){
+export default function(shell){
 
-document.getElementById("terminal").innerHTML="";
+shell.terminal.innerHTML="";
 
 }
