@@ -1,17 +1,19 @@
-import {Shell} from "./kernel/shell.js";
+import { Shell } from "./kernel/shell.js";
 
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
 
-    const desktop=document.getElementById("desktop");
+    const boot = document.getElementById("boot-screen");
+    const desktop = document.getElementById("desktop");
 
-    desktop.style.display="block";
+    desktop.style.display = "none";
 
-    const shell=new Shell();
+    setTimeout(() => {
 
-    setTimeout(()=>{
+        boot.remove();      // 起動画面を完全削除
+        desktop.style.display = "block";
 
-        shell.boot();
+        new Shell();
 
-    },1200);
+    }, 1800);
 
 });
