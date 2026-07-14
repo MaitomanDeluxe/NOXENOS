@@ -1,12 +1,18 @@
 import commands from "../commands/index.js";
-import {parse} from "./parser.js";
-import {History} from "./history.js";
+import { parse } from "./parser.js";
+import { History } from "./history.js";
 
-export class Shell{
+export class Shell {
 
-constructor(){
+    constructor() {
 
-  this.bootLogo=`
+        this.currentDirectory = "/home/noxen";
+
+        this.history = new History();
+
+        this.terminal = document.getElementById("terminal");
+
+        this.bootLogo = `
 ███╗   ██╗ ██████╗ ██╗  ██╗███████╗███╗   ██╗
 ████╗  ██║██╔═══██╗╚██╗██╔╝██╔════╝████╗  ██║
 ██╔██╗ ██║██║   ██║ ╚███╔╝ █████╗  ██╔██╗ ██║
@@ -15,124 +21,146 @@ constructor(){
 ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
 
 NOXEN OS
-
 Serpent in the Dark
 
 Boot Complete.
 `;
 
-this.currentDirectory="/home/noxen";
+    }
 
-this.history=new History();
+    boot() {
 
-this.terminal=document.getElementById("terminal");
+        this.print(this.bootLogo);
+        this.print("");
+        this.newPrompt();
 
-this.newPrompt();
+    }
 
-}
+    print(text = "") {
 
-print(text=""){
+        const line = document.createElement("div");
 
-const div=document.createElement("div");
+        line.className = "line";
 
-div.className="line";
+        line.textContent = text;
 
-div.textContent=text;
+        this.terminal.appendChild(line);
 
-this.terminal.appendChild(div);
+        this.scroll();
 
-this.scroll();
+    }
 
-}
+    scroll() {
 
-scroll(){
+        this.terminal.scrollTop = this.terminal.scrollHeight;
 
-this.terminal.scrollTop=this.terminal.scrollHeight;
+    }
 
-}
+    newPrompt() {
 
-newPrompt(){
+        const line = document.createElement("div");
 
-const line=document.createElement("div");
+        line.className = "line";
 
-line.className="line";
+        const prompt = document.createElement("span");
 
-const prompt=document.createElement("span");
+        prompt.className = "prompt";
 
-prompt.className="prompt";
+        prompt.textContent = `noxen@serpent:${this.currentDirectory}$ `;
 
-prompt.textContent="noxen@serpent:"+this.currentDirectory+"$ ";
+        const input = document.createElement("input");
 
-const input=document.createElement("input");
+        input.className = "input";
 
-input.className="input";
+        input.type = "text";
 
-input.autocomplete="off";
+        input.autocomplete = "off";
 
-input.spellcheck=false;
+        input.autocorrect = "off";
 
-line.appendChild(prompt);
+        input.autocapitalize = "off";
 
-line.appendChild(input);
+        input.spellcheck = false;
 
-this.terminal.appendChild(line);
+        line.appendChild(prompt);
 
-input.focus();
+        line.appendChild(input);
 
-input.addEventListener("keydown",(e)=>this.key(e,input));
+        this.terminal.appendChild(line);
 
-this.scroll();
+        requestAnimationFrame(() => {
 
-}
+            input.focus();
 
-key(e,input){
+        });
 
-if(e.key==="Enter"){
+        this.terminal.onclick = () => {
 
-const text=input.value;
+            input.focus();
 
-input.disabled=true;
+        };
 
-this.history.add(text);
+        input.addEventListener("keydown", (e) => this.key(e, input));
 
-const parsed=parse(text);
+        this.scroll();
 
-if(parsed){
+    }
 
-const cmd=commands[parsed.command];
+    key(e, input) {
 
-if(cmd){
+        if (e.key === "ArrowUp") {
 
-cmd(this,parsed.args);
+            e.preventDefault();
 
-}else{
+            input.value = this.history.previous();
 
-this.print(parsed.command+": command not found");
+            return;
 
-}
+        }
 
-}
+        if (e.key === "ArrowDown") {
 
-this.newPrompt();
+            e.preventDefault();
 
-}
+            input.value = this.history.next();
 
-if(e.key==="ArrowUp"){
+            return;
 
-e.preventDefault();
+        }
 
-input.value=this.history.previous();
+        if (e.key !== "Enter")
+            return;
 
-}
+        const text = input.value.trim();
 
-if(e.key==="ArrowDown"){
+        input.disabled = true;
 
-e.preventDefault();
+        this.history.add(text);
 
-input.value=this.history.next();
+        if (text !== "") {
 
-}
+            const parsed = parse(text);
 
-}
+            if (parsed) {
+
+                const cmd = commands[parsed.command];
+
+                if (cmd) {
+
+                    cmd(this, parsed.args);
+
+                } else {
+
+                    this.print(`${parsed.command}: command not found`);
+
+                }
+
+            }
+
+        }
+
+        this.newPrompt();
+
+    }
 
 }
